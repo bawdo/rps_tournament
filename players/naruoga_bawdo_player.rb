@@ -10,11 +10,10 @@ class NaruogaBawdoPlayer < RpsTournament::Player
   end
 
   def choose
-
     return OPTIONS.sample if results.empty?
-    last_result = results.last.last
-    last_my_choice = results.last[0]
+    last_my_choice       = results.last[0]
     last_opponent_choice = results.last[1]
+    last_result          = results.last[2]
 
     if detect_sequence_player
       last_opponent_choice
@@ -36,7 +35,7 @@ class NaruogaBawdoPlayer < RpsTournament::Player
   private
 
   def last_six_opponent_plays
-    results.length > 5 ? results[-6,6].map {|i| i[1] } : results.map {|i| i[1] }
+    (results.length % 6 == 0 ? results[-6,6] : results).map {|i| i[1] }
   end
 
   def detect_not_rock
@@ -46,6 +45,7 @@ class NaruogaBawdoPlayer < RpsTournament::Player
   def detect_sequence_player
     if results.length % 6 == 0
       self.seq = ( last_six_opponent_plays == [:rock, :scissors, :paper, :rock, :scissors, :paper] )
+      self.results = results[-6,6]
     end
     return seq
   end
