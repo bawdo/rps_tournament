@@ -24,7 +24,7 @@ class NaruogaBawdoPlayer < RpsTournament::Player
     elsif last_result == :win
       last_my_choice
     else
-      (OPTIONS - [last_opponent_choice]).sample
+      OPTIONS.sample
     end
   end
 
