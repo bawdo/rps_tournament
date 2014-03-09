@@ -18,6 +18,8 @@ class NaruogaBawdoPlayer < RpsTournament::Player
 
     if detect_sequence_player
       last_opponent_choice
+    elsif detect_not_rock
+      [:scissors, :rock].sample
     elsif last_result == :lose
       OPTIONS.sample
     elsif last_result == :win
@@ -35,6 +37,10 @@ class NaruogaBawdoPlayer < RpsTournament::Player
 
   def last_six_opponent_plays
     results.length > 5 ? results[-6,6].map {|i| i[1] } : results.map {|i| i[1] }
+  end
+
+  def detect_not_rock
+    (OPTIONS - last_six_opponent_plays.uniq) == [:rock]
   end
 
   def detect_sequence_player
